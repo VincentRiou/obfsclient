@@ -167,12 +167,16 @@ void init_logging(const ::std::string& path,
     switch(min_log_level) {
     case LogLevel::kDEBUG:
       conf.set(::el::Level::Debug, ::el::ConfigurationType::Enabled, "true");
+      [[fallthrough]];
     case LogLevel::kINFO:
       conf.set(::el::Level::Info, ::el::ConfigurationType::Enabled, "true");
+      [[fallthrough]];
     case LogLevel::kWARNING:
       conf.set(::el::Level::Warning, ::el::ConfigurationType::Enabled, "true");
+      [[fallthrough]];
     case LogLevel::kERROR:
       conf.set(::el::Level::Error, ::el::ConfigurationType::Enabled, "true");
+      [[fallthrough]];
     default:
       conf.set(::el::Level::Fatal, ::el::ConfigurationType::Enabled, "true");
     }
@@ -343,7 +347,7 @@ int main(int argc, char* argv[]) {
         // Technically, don't need to do anything because the dtor will do this.
         for (auto iter = servers->begin(); iter != servers->end(); ++iter)
           (*iter)->close_sessions();
-        // FALLSTHROUGH
+          [[fallthrough]];
       default:
         ::event_base_loopbreak(ev_base);
         break;
